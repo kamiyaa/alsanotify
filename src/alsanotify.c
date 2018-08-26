@@ -102,6 +102,7 @@ int main(int argc, char **argv)
 
 	long vol_change = alsa_max_vol * change / 100;
 	unsigned int volume = alsa_change_volume(alsa_handle, vol_change) / alsa_max_vol;
+	snd_mixer_close(alsa_handle);
 
 	static char buf[4];
 	snprintf(buf, 4, "%u%%", volume);

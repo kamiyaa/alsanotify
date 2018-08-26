@@ -17,6 +17,6 @@ $ make
 
 ## Usage
 ```
-$ alsanotify 2
-$ alsanotify -2
+$ alsanotify 2	# increases volume by 2%
+$ alsanotify -2	# decreases volume by 2%
 ```

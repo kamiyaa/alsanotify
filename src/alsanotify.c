@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 		.set = false,
 	};
 
-	char *interface = "Master";
+	const char *interface = "Master";
 	int c, change = 0, exit_status = 0;
 	while ((c = getopt(argc, argv, "i:s:c:")) != EOF) {
 		switch(c) {
@@ -65,10 +65,10 @@ int main(int argc, char **argv)
 	// printf("interface %s\n", interface);
 
 	snd_mixer_t *alsa_handle = create_alsa_handle();
-	long alsa_max_vol = alsa_get_max_vol(alsa_handle);
+	long alsa_max_vol = alsa_get_max_vol(alsa_handle, interface);
 
 	long vol_change = alsa_max_vol / 100 * change;
-	unsigned int volume = alsa_change_volume(alsa_handle, vol_change) / alsa_max_vol;
+	unsigned int volume = alsa_change_volume(alsa_handle, interface, vol_change) / alsa_max_vol;
 	snd_mixer_close(alsa_handle);
 
 	static char buf[5];

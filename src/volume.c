@@ -17,13 +17,13 @@ snd_mixer_t *create_alsa_handle()
 	return handle;
 }
 
-long alsa_get_max_vol(snd_mixer_t *handle)
+long alsa_get_max_vol(snd_mixer_t *handle, const char *interface)
 {
 	snd_mixer_selem_id_t *sid;
 
 	snd_mixer_selem_id_alloca(&sid);
 	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, "Master");
+	snd_mixer_selem_id_set_name(sid, interface);
 
 	long min, max;
 
@@ -34,7 +34,7 @@ long alsa_get_max_vol(snd_mixer_t *handle)
 	return max;
 }
 
-unsigned int alsa_change_volume(snd_mixer_t *handle, long change)
+unsigned int alsa_change_volume(snd_mixer_t *handle, const char *interface, long change)
 {
 	long volume;
 	snd_mixer_selem_id_t *sid;
@@ -42,7 +42,7 @@ unsigned int alsa_change_volume(snd_mixer_t *handle, long change)
 
 	snd_mixer_selem_id_alloca(&sid);
 	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, "Master");
+	snd_mixer_selem_id_set_name(sid, interface);
 
 	elem = snd_mixer_find_selem(handle, sid);
 
@@ -68,7 +68,7 @@ int selems()
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_alloca(&sid);
-	
+
 	if ((err = snd_mixer_open(&handle, 0)) < 0) {
 		fprintf(stderr, "Mixer %s open error: %s", SOUNDCARD, snd_strerror(err));
 		return err;

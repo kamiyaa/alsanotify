@@ -34,9 +34,12 @@ long alsa_get_max_vol(snd_mixer_t *handle, const char *interface)
 	return max;
 }
 
-unsigned int alsa_change_volume(snd_mixer_t *handle, const char *interface, long change)
+unsigned int alsa_change_by_percent(snd_mixer_t *handle, const char *interface, int percent)
 {
+	long alsa_max_vol = alsa_get_max_vol(handle, interface);
+	long unit = alsa_max_vol / 100;
 	long volume;
+
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_elem_t *elem;
 
@@ -49,7 +52,7 @@ unsigned int alsa_change_volume(snd_mixer_t *handle, const char *interface, long
 	snd_mixer_selem_get_playback_volume(elem,
 		SND_MIXER_SCHN_FRONT_LEFT, &volume);
 
-	volume += change;
+	volume = (volume / unit * unit) + unit * percent;
 
 	snd_mixer_selem_set_playback_volume_all(elem, volume);
 //	snd_mixer_selem_set_playback_volume(elem,
@@ -58,7 +61,7 @@ unsigned int alsa_change_volume(snd_mixer_t *handle, const char *interface, long
 	snd_mixer_selem_get_playback_volume(elem,
 		SND_MIXER_SCHN_FRONT_LEFT, &volume);
 
-	return volume * 100;
+	return (double)volume / (double)unit;
 }
 
 int selems()

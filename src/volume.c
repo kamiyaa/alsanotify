@@ -53,6 +53,12 @@ unsigned int alsa_change_by_percent(snd_mixer_t *handle, const char *interface, 
 		SND_MIXER_SCHN_FRONT_LEFT, &volume);
 
 	volume = (volume / unit * unit) + unit * percent;
+	if (volume < 0) {
+		volume = 0;
+	}
+	if (volume > alsa_max_vol) {
+		volume = alsa_max_vol;
+	}
 
 	snd_mixer_selem_set_playback_volume_all(elem, volume);
 //	snd_mixer_selem_set_playback_volume(elem,

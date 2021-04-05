@@ -1,5 +1,8 @@
 # alsanotify
 
+This project is closed.
+With the introduction of Pipewire, users should no longer directly interact with alsa and instead use Pipewire, PulseAudio or JACK.
+
 ## Description
 Command that changes volume of alsa as well as sends a desktop notification of the new volume
 

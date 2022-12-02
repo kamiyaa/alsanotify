@@ -13,7 +13,7 @@ Command that changes volume of alsa as well as sends a desktop notification of t
 ## Installation
 Install using **make**:
 ```
-$ cd ruiji/src
+$ cd alsanotify/src
 $ make
 # make install
 ```
